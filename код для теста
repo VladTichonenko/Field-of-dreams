@@ -1,0 +1,72 @@
+import random
+import os
+import pygame
+
+
+x="Река в Сибири"
+x1="Витим"
+y="Нагрудная вставка с воротником"
+y1="Манишка"
+z="Мужской головной убор"
+z1="Картуз"
+list=[x,y,z]
+random_slowo = random.choice(list)
+guesses = ''
+attempts = 0
+
+if random_slowo==x:
+    dlina=len(x1)
+    a=x1
+elif random_slowo==y:
+    dlina = len(y1)
+    a=y1
+else:
+    dlina = len(z1)
+    a=z1
+
+n=dlina*'_'
+print(dlina)
+print(random_slowo,'->', n)
+
+while True:
+    blanks = ''
+    for letter in a:
+        if letter in guesses:
+            blanks += letter
+        else:
+            blanks += '_'
+
+    print(blanks)
+
+    if blanks == a:
+        print("Победа!")
+        break
+
+    user_input = input("Угадайте букву: ")
+
+    if user_input in guesses:
+
+        print("Вы уже угадали эту букву.")
+    else:
+        guesses += user_input
+        if user_input in a:
+            print("Вы угадали букву!")
+            pygame.mixer.init()
+            pygame.mixer.music.load('C:/Users/user/Downloads/pole_letter_correct.mp3')
+            pygame.mixer.music.play()
+
+            while pygame.mixer.music.get_busy():
+                continue
+        else:
+            attempts += 1
+            print("Нет такой буквы")
+            pygame.mixer.init()
+            pygame.mixer.music.load('C:/Users/user/Downloads/pole_letter_wrong.mp3')
+            pygame.mixer.music.play()
+
+            while pygame.mixer.music.get_busy():
+                continue
+
+    if attempts == 10: #-количество ходов одного игрока
+        print("Вы проиграли.")
+        break
